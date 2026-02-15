@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Caesar - Premium Mobile Menu</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* --- 1. ОСНОВНИ НАСТРОЙКИ --- */
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        
+        html { 
+            scroll-behavior: smooth; 
+            scroll-padding-top: 140px; 
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            color: #333;
+            padding-bottom: 80px;
+        }
+
+        /* --- 2. HEADER & PROMO --- */
+        .promo-banner {
+            background: linear-gradient(45deg, #d32f2f, #b71c1c);
+            color: white;
+            text-align: center;
+            padding: 8px;
+            font-size: 11px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .mobile-header {
+            background: white;
+            padding: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            position: relative;
+        }
+
+        .back-btn-header {
+            position: absolute;
+            left: 15px;
+            color: #333;
+            text-decoration: none;
+            font-size: 20px;
+        }
+
+        .logo-img { max-height: 45px; width: auto; }
+
+        /* --- 3. SEARCH & STICKY NAV --- */
+        .sticky-wrapper {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: white;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        .search-container {
+            padding: 10px 15px;
+            background: #fff;
+            position: relative;
+        }
+        .search-input {
+            width: 100%;
+            padding: 10px 15px 10px 40px;
+            border-radius: 10px;
+            border: 1px solid #eee;
+            background: #f1f3f5;
+            font-size: 14px;
+            outline: none;
+        }
+        .search-icon { position: absolute; left: 28px; top: 22px; color: #aaa; font-size: 14px; }
+
+        .sticky-nav {
+            display: flex;
+            overflow-x: auto;
+            padding: 5px 0 12px 0;
+            white-space: nowrap;
+            -webkit-overflow-scrolling: touch;
+        }
+        .sticky-nav::-webkit-scrollbar { display: none; }
+
+        .nav-item {
+            margin: 0 5px;
+            padding: 8px 18px;
+            background: #f1f3f5;
+            color: #666;
+            text-decoration: none;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 700;
+            transition: 0.3s;
+        }
+        .nav-item:first-child { margin-left: 15px; }
+        .nav-item.active { background: #d32f2f; color: white; }
+
+        /* --- 4. КАРТИ НА ПРОДУКТИ --- */
+        .menu-section { padding: 20px 15px 0 15px; }
+        .section-title {
+            font-size: 22px;
+            font-weight: 800;
+            margin-bottom: 15px;
+            color: #1a1a1a;
+            border-left: 4px solid #d32f2f;
+            padding-left: 10px;
+        }
+
+        .mobile-card {
+            background: white;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.06);
+            border: 1px solid #f0f0f0;
+            overflow: hidden;
+        }
+
+        .card-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            display: block;
+            background-color: #eee; /* Сив фон, докато зареди */
+        }
+
+        .card-body { padding: 15px; }
+
+        .card-top { display: flex; justify-content: space-between; align-items: flex-start; }
+        .item-name { font-size: 18px; font-weight: 700; color: #2d3436; margin: 0; flex: 1; }
+        .item-price { font-size: 18px; font-weight: 800; color: #d32f2f; margin-left: 10px; }
+        .item-desc { font-size: 13px; color: #636e72; margin: 8px 0; line-height: 1.5; font-style: italic; }
+        .item-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; padding-top: 10px; border-top: 1px solid #f9f9f9; }
+        .item-weight { font-size: 11px; color: #b2bec3; font-weight: 600; background: #f5f5f5; padding: 3px 8px; border-radius: 4px; }
+
+        .badge { font-size: 10px; padding: 2px 6px; border-radius: 5px; font-weight: bold; margin-left: 5px; vertical-align: middle; }
+        .badge-veg { background: #e8f5e9; color: #2e7d32; }
+        .badge-new { background: #fff3e0; color: #e67e22; }
+        .badge-spicy { background: #ffebee; color: #c62828; }
+
+        /* --- 5. FAB & WIFI --- */
+        .fab {
+            position: fixed;
+            bottom: 25px;
+            right: 20px;
+            width: 55px;
+            height: 55px;
+            background: #d32f2f;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 22px;
+            box-shadow: 0 5px 20px rgba(211, 47, 47, 0.4);
+            z-index: 2000;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(211, 47, 47, 0.7); }
+            70% { transform: scale(1.05); box-shadow: 0 0 0 15px rgba(211, 47, 47, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(211, 47, 47, 0); }
+        }
+
+        .wifi-box {
+            margin: 40px 15px;
+            background: #2d3436;
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="promo-banner">Обедно меню до 16:00ч - Всеки делник!</div>
+
+    <header class="mobile-header">
+        <a href="index.html" class="back-btn-header"><i class="fas fa-arrow-left"></i></a>
+        <img src="logo.png" alt="Caesar" class="logo-img">
+    </header>
+
+    <div class="sticky-wrapper">
+        <div class="search-container">
+            <i class="fas fa-search search-icon"></i>
+            <input type="text" id="mobSearch" class="search-input" placeholder="Търси в менюто..." onkeyup="mobFilter()">
+        </div>
+        <nav class="sticky-nav">
+            <a href="#salads" class="nav-item">Салати</a>
+            <a href="#starters" class="nav-item">Предястия</a>
+            <a href="#mains" class="nav-item">Основни</a>
+            <a href="#drinks" class="nav-item">Напитки</a>
+        </nav>
+    </div>
+
+    <div class="fab" onclick="alert('Сервитиорът е извикан!')">
+        <i class="fas fa-bell"></i>
+    </div>
+
+    <main id="menuList">
+        <section id="salads" class="menu-section">
+            <h2 class="section-title">Салати</h2>
+            
+            <div class="mobile-card">
+                <img src="images/cezar.jpg" class="card-img" alt="Салата Цезар">
+                <div class="card-body">
+                    <div class="card-top"><h3 class="item-name">Салата Цезар <span class="badge badge-new">Ново</span></h3><span class="item-price">14.90</span></div>
+                    <p class="item-desc">Айсберг, пилешко филе, пармезан, крутони, сос Цезар.</p>
+                    <div class="item-footer"><span class="item-weight">350 гр.</span></div>
+                </div>
+            </div>
+
+            <div class="mobile-card">
+                <img src="images/shopska.jpg" class="card-img" alt="Шопска салата">
+                <div class="card-body">
+                    <div class="card-top"><h3 class="item-name">Шопска салата <span class="badge badge-veg">🌿</span></h3><span class="item-price">9.50</span></div>
+                    <p class="item-desc">Домати, краставици, пресен пипер, сирене, магданоз.</p>
+                    <div class="item-footer"><span class="item-weight">400 гр.</span></div>
+                </div>
+            </div>
+
+            <div class="mobile-card">
+                <img src="images/ovcharska.jpg" class="card-img" alt="Овчарска салата">
+                <div class="card-body">
+                    <div class="card-top"><h3 class="item-name">Овчарска салата</h3><span class="item-price">10.90</span></div>
+                    <p class="item-desc">Шопска салата с добавка на гъби, яйце и шунка.</p>
+                    <div class="item-footer"><span class="item-weight">450 гр.</span></div>
+                </div>
+            </div>
+
+            <div class="mobile-card">
+                <img src="images/greek.jpg" class="card-img" alt="Гръцка салата">
+                <div class="card-body">
+                    <div class="card-top"><h3 class="item-name">Гръцка салата</h3><span class="item-price">11.50</span></div>
+                    <p class="item-desc">Домати, краставици, маслини, лук, риган, сирене Фета.</p>
+                    <div class="item-footer"><span class="item-weight">380 гр.</span></div>
+                </div>
+            </div>
+
+            <div class="mobile-card">
+                <img src="images/caprese.jpg" class="card-img" alt="Капрезе">
+                <div class="card-body">
+                    <div class="card-top"><h3 class="item-name">Капрезе</h3><span class="item-price">13.20</span></div>
+                    <p class="item-desc">Белени домати, моцарела, босилеково песто.</p>
+                    <div class="item-footer"><span class="item-weight">300 гр.</span></div>
+                </div>
+            </div>
+
+            <div class="mobile-card">
+                <img src="images/vitamina.jpg" class="card-img" alt="Витамина">
+                <div class="card-body">
+                    <div class="card-top"><h3 class="item-name">Витамина</h3><span class="item-price">8.90</span></div>
+                    <p class="item-desc">Моркови, цвекло, ябълка, дресинг от лимон и мед.</p>
+                    <div class="item-footer"><span class="item-weight">300 гр.</span></div>
+                </div>
+            </div>
+
+            <div class="mobile-card">
+                <img src="images/tuna.jpg" class="card-img" alt="Зелена салата с риба тон">
+                <div class="card-body">
+                    <div class="card-top"><h3 class="item-name">Зелена с риба тон</h3><span class="item-price">12.50</span></div>
+                    <p class="item-desc">Маруля, краставици, царевица, риба тон, лимон.</p>
+                    <div class="item-footer"><span class="item-weight">350 гр.</span></div>
+                </div>
+            </div>
+
+            <div class="mobile-card">
+                <img src="images/spinach.jpg" class="card-img" alt="Спаначена салата">
+                <div class="card-body">
+                    <div class="card-top"><h3 class="item-name">Спаначена салата</h3><span class="item-price">13.90</span></div>
+                    <p class="item-desc">Бейби спанак, киноа, сушени домати, синьо сирене.</p>
+                    <div class="item-footer"><span class="item-weight">280 гр.</span></div>
+                </div>
+            </div>
+
+            <div class="mobile-card">
+                <img src="images/pink_tomatoes.jpg" class="card-img" alt="Розови домати">
+                <div class="card-body">
+                    <div class="card-top"><h3 class="item-name">Розови домати</h3><span class="item-price">15.50</span></div>
+                    <p class="item-desc">Селски розови домати, биволско сирене, печен пипер.</p>
+                    <div class="item-footer"><span class="item-weight">400 гр.</span></div>
+                </div>
+            </div>
+
+            <div class="mobile-card">
+                <img src="images/snezhanka.jpg" class="card-img" alt="Снежанка">
+                <div class="card-body">
+                    <div class="card-top"><h3 class="item-name">Снежанка</h3><span class="item-price">8.50</span></div>
+                    <p class="item-desc">Цедено кисело мляко, кисели краставички, копър, орехи.</p>
+                    <div class="item-footer"><span class="item-weight">250 гр.</span></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="starters" class="menu-section">
+            <h2 class="section-title">Предястия</h2>
+            
+            <div class="mobile-card">
+                <img src="images/kashkaval_pane.jpg" class="card-img" alt="Кашкавал пане">
+                <div class="card-body">
+                    <div class="card-top"><h3 class="item-name">Кашкавал пане</h3><span class="item-price">10.90</span></div>
+                    <p class="item-desc">Класически кашкавал с хрупкава панировка.</p>
+                    <div class="item-footer"><span class="item-weight">250 гр.</span></div>
+                </div>
+            </div>
+            
+            <div class="mobile-card">
+                <img src="images/sirene_shopski.jpg" class="card-img" alt="Сирене по шопски">
+                <div class="card-body">
+                    <div class="card-top"><h3 class="item-name">Сирене по шопски</h3><span class="item-price">9.90</span></div>
+                    <p class="item-desc">Сирене, домати, яйце и люта чушка в гювече.</p>
+                    <div class="item-footer"><span class="item-weight">300 гр.</span></div>
+                </div>
+            </div>
+
+            <div class="mobile-card">
+                <img src="images/nuggets.jpg" class="card-img" alt="Пилешки хапки">
+                <div class="card-body">
+                    <div class="card-top"><h3 class="item-name">Пилешки хапки</h3><span class="item-price">12.50</span></div>
+                    <p class="item-desc">Със сусам и чеснов сос.</p>
+                    <div class="item-footer"><span class="item-weight">250 гр.</span></div>
+                </div>
+            </div>
+
+            <div class="mobile-card">
+                <img src="images/zucchini.jpg" class="card-img" alt="Хрупкави тиквички">
+                <div class="card-body">
+                    <div class="card-top"><h3 class="item-name">Хрупкави тиквички</h3><span class="item-price">10.50</span></div>
+                    <p class="item-desc">Тънко нарязани тиквички по гръцки с млечен сос.</p>
+                    <div class="item-footer"><span class="item-weight">280 гр.</span></div>
+                </div>
+            </div>
+
+            <div class="mobile-card">
+                <img src="images/mushrooms.jpg" class="card-img" alt="Гъби в масло">
+                <div class="card-body">
+                    <div class="card-top"><h3 class="item-name">Гъби в масло</h3><span class="item-price">9.20</span></div>
+                    <p class="item-desc">Пресни печурки, масло, копър и чесън.</p>
+                    <div class="item-footer"><span class="item-weight">200 гр.</span></div>
+                </div>
+            </div>
+
+            <div class="mobile-card">
+                <img src="images/melted_cheese.jpg" class="card-img" alt="Топени сиренца">
+                <div class="card-body">
+                    <div class="card-top"><h3 class="item-name">Топени сиренца</h3><span class="item-price">11.90</span></div>
+                    <p class="item-desc">Панирани топени сирена със сладко от боровинки.</p>
+                    <div class="item-footer"><span class="item-weight">220 гр.</span></div>
+                </div>
+            </div>
+
+            <div class="mobile-card">
+                <img src="images/wings.jpg" class="card-img" alt="Пикантни крилца">
+                <div class="card-body">
+                    <div class="card-top"><h3 class="item-name">Пикантни крилца <span class="badge badge-spicy">🌶️</span></h3><span class="item-price">11.50</span></div>
+                    <p class="item-desc">Пикантни крилца с барбекю глазура.</p>
+                    <div class="item-footer"><span class="item-weight">350 гр.</span></div>
+                </div>
+            </div>
+
+            <div class="mobile-card">
+                <img src="images/tongue.jpg" class="card-img" alt="Телешки език в масло">
+                <div class="card-body">
+                    <div class="card-top"><h3 class="item-name">Телешки език в масло</h3><span class="item-price">14.90</span></div>
+                    <p class="item-desc">Крехък телешки език, задушен в масло.</p>
+                    <div class="item-footer"><span class="item-weight">200 гр.</span></div>
+                </div>
+            </div>
+
+            <div class="mobile-card">
+                <img src="images/tarama.jpg" class="card-img" alt="Тарама хайвер">
+                <div class="card-body">
+                    <div class="card-top"><h3 class="item-name">Тарама хайвер</h3><span class="item-price">8.50</span></div>
+                    <p class="item-desc">Домашен разбит хайвер с препечени филийки.</p>
+                    <div class="item-footer"><span class="item-weight">150 гр.</span></div>
+                </div>
+            </div>
+
+            <div class="mobile-card">
+                <img src="images/cheese_platter.jpg" class="card-img" alt="Плато сирена">
+                <div class="card-body">
+                    <div class="card-top"><h3 class="item-name">Плато сирена</h3><span class="item-price">24.00</span></div>
+                    <p class="item-desc">Синьо сирене, бри, камембер, ементал, орехи.</p>
+                    <div class="item-footer"><span class="item-weight">400 гр.</span></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="mains" class="menu-section">
+            <h2 class="section-title">Основни ястия</h2>
+            
+            <div class="mobile-card">
+                <img src="images/ribs.jpg" class="card-img" alt="Свински ребърца">
+                <div class="card-body">
+                    <div class="card-top"><h3 class="item-name">Свински ребърца</h3><span class="item-price">22.90</span></div>
+                    <p class="item-desc">С BBQ сос и домашни пържени картофи.</p>
+                    <div class="item-footer"><span class="item-weight">500 гр.</span></div>
+                </div>
+            </div>
+
+            <div class="mobile-card">
+                <img src="images/chicken_steak.jpg" class="card-img" alt="Пилешка пържола">
+                <div class="card-body">
+                    <div class="card-top"><h3 class="item-name">Пилешка пържола</h3><span class="item-price">14.50</span></div>
+                    <p class="item-desc">Пилешко филе на скара с гриловани зеленчуци.</p>
+                    <div class="item-footer"><span class="item-weight">350 гр.</span></div>
+                </div>
+            </div>
+
+            <div class="mobile-card">
+                <img src="images/pork_neck.jpg" class="card-img" alt="Свински врат на скара">
+                <div class="card-body">
+                    <div class="card-top"><h3 class="item-name">Свински врат на скара</h3><span class="item-price">16.90</span></div>
+                    <p class="item-desc">Сочен свински врат на скара с гъбен сос.</p>
+                    <div class="item-footer"><span class="item-weight">400 гр.</span></div>
+                </div>
+            </div>
+
+            <div class="mobile-card">
+                <img src="images/risotto.jpg" class="card-img" alt="Ризото с манатарки">
+                <div class="card-body">
+                    <div class="card-top"><h3 class="item-name">Ризото с манатарки</h3><span class="item-price">15.90</span></div>
+                    <p class="item-desc">Ориз Арборио, диви манатарки, пармезан, бяло вино.</p>
+                    <div class="item-footer"><span class="item-weight">300 гр.</span></div>
+                </div>
+            </div>
+
+            <div class="mobile-card">
+                <img src="images/carbonara.jpg" class="card-img" alt="Спагети Карбонара">
+                <div class="card-body">
+                    <div class="card-top"><h3 class="item-name">Спагети Карбонара</h3><span class="item-price">14.90</span></div>
+                    <p class="item-desc">Оригинална рецепта с гуанчале, яйце и пекорино.</p>
+                    <div class="item-footer"><span class="item-weight">350 гр.</span></div>
+                </div>
+            </div>
+
+            <div class="mobile-card">
+                <img src="images/burger.jpg" class="card-img" alt="Телешки бургер">
+                <div class="card-body">
+                    <div class="card-top"><h3 class="item-name">Телешки бургер</h3><span class="item-price">18.50</span></div>
+                    <p class="item-desc">100% телешко, чедър, карамелизиран лук.</p>
+                    <div class="item-footer"><span class="item-weight">400 гр.</span></div>
+                </div>
+            </div>
+
+            <div class="mobile-card">
+                <img src="images/salmon.jpg" class="card-img" alt="Сьомга на плоча">
+                <div class="card-body">
+                    <div class="card-top"><h3 class="item-name">Сьомга на плоча</h3><span class="item-price">26.00</span></div>
+                    <p class="item-desc">Филе от сьомга с гарнитура аспержи и лимонов сос.</p>
+                    <div class="item-footer"><span class="item-weight">300 гр.</span></div>
+                </div>
+            </div>
+
+            <div class="mobile-card">
+                <img src="images/chicken_4_cheese.jpg" class="card-img" alt="Пиле с четири сирена">
+                <div class="card-body">
+                    <div class="card-top"><h3 class="item-name">Пиле с четири сирена</h3><span class="item-price">17.50</span></div>
+                    <p class="item-desc">Пилешко филе в богат сос от четири вида сирена.</p>
+                    <div class="item-footer"><span class="item-weight">350 гр.</span></div>
+                </div>
+            </div>
+
+            <div class="mobile-card">
+                <img src="images/sache.jpg" class="card-img" alt="Саче Родопи">
+                <div class="card-body">
+                    <div class="card-top"><h3 class="item-name">Саче "Родопи"</h3><span class="item-price">28.90</span></div>
+                    <p class="item-desc">Свинско, пилешко, наденица и зеленчуци на чугунена плоча.</p>
+                    <div class="item-footer"><span class="item-weight">800 гр.</span></div>
+                </div>
+            </div>
+
+            <div class="mobile-card">
+                <img src="images/sea_bream.jpg" class="card-img" alt="Ципура на скара">
+                <div class="card-body">
+                    <div class="card-top"><h3 class="item-name">Ципура на скара</h3><span class="item-price">22.50</span></div>
+                    <p class="item-desc">Цяла риба с гарнитура варени картофи.</p>
+                    <div class="item-footer"><span class="item-weight">400 гр.</span></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="drinks" class="menu-section">
+            <h2 class="section-title">Напитки</h2>
+            
+            <div class="mobile-card">
+                <img src="images/coke.jpg" class="card-img" alt="Кока Кола">
+                <div class="card-body">
+                    <div class="card-top"><h3 class="item-name">Кока Кола / Фанта</h3><span class="item-price">3.50</span></div>
+                    <div class="item-footer"><span class="item-weight">250 мл.</span></div>
+                </div>
+            </div>
+
+            <div class="mobile-card">
+                <img src="images/water.jpg" class="card-img" alt="Минерална вода">
+                <div class="card-body">
+                    <div class="card-top"><h3 class="item-name">Минерална вода</h3><span class="item-price">2.50</span></div>
+                    <p class="item-desc">Банкя / Девин.</p>
+                    <div class="item-footer"><span class="item-weight">330 мл.</span></div>
+                </div>
+            </div>
+
+            <div class="mobile-card">
+                <img src="images/lemonade.jpg" class="card-img" alt="Домашна лимонада">
+                <div class="card-body">
+                    <div class="card-top"><h3 class="item-name">Домашна лимонада</h3><span class="item-price">5.90</span></div>
+                    <p class="item-desc">Лимон, мента, мед и джинджифил.</p>
+                    <div class="item-footer"><span class="item-weight">400 мл.</span></div>
+                </div>
+            </div>
+
+            <div class="mobile-card">
+                <img src="images/ayran.jpg" class="card-img" alt="Свеж айрян">
+                <div class="card-body">
+                    <div class="card-top"><h3 class="item-name">Свеж айрян</h3><span class="item-price">2.80</span></div>
+                    <div class="item-footer"><span class="item-weight">300 мл.</span></div>
+                </div>
+            </div>
+
+            <div class="mobile-card">
+                <img src="images/espresso.jpg" class="card-img" alt="Еспресо Лаваца">
+                <div class="card-body">
+                    <div class="card-top"><h3 class="item-name">Еспресо Лаваца</h3><span class="item-price">3.00</span></div>
+                    <div class="item-footer"><span class="item-weight">60 мл.</span></div>
+                </div>
+            </div>
+
+            <div class="mobile-card">
+                <img src="images/beer.jpg" class="card-img" alt="Бира наливна">
+                <div class="card-body">
+                    <div class="card-top"><h3 class="item-name">Бира наливна 500мл</h3><span class="item-price">4.50</span></div>
+                    <div class="item-footer"><span class="item-weight">500 мл.</span></div>
+                </div>
+            </div>
+
+            <div class="mobile-card">
+                <img src="images/heineken.jpg" class="card-img" alt="Хайнекен бутилка">
+                <div class="card-body">
+                    <div class="card-top"><h3 class="item-name">Хайнекен бутилка</h3><span class="item-price">5.50</span></div>
+                    <div class="item-footer"><span class="item-weight">330 мл.</span></div>
+                </div>
+            </div>
+
+            <div class="mobile-card">
+                <img src="images/wine.jpg" class="card-img" alt="Чаша вино">
+                <div class="card-body">
+                    <div class="card-top"><h3 class="item-name">Чаша наливно вино</h3><span class="item-price">7.00</span></div>
+                    <p class="item-desc">Бяло, Червено или Розе (изба Катаржина).</p>
+                    <div class="item-footer"><span class="item-weight">150 мл.</span></div>
+                </div>
+            </div>
+
+            <div class="mobile-card">
+                <img src="images/rakia.jpg" class="card-img" alt="Ракия Бургас 63">
+                <div class="card-body">
+                    <div class="card-top"><h3 class="item-name">Ракия Бургас 63</h3><span class="item-price">6.50</span></div>
+                    <p class="item-desc">Специална селекция.</p>
+                    <div class="item-footer"><span class="item-weight">50 мл.</span></div>
+                </div>
+            </div>
+
+            <div class="mobile-card">
+                <img src="images/jameson.jpg" class="card-img" alt="Уиски Jameson">
+                <div class="card-body">
+                    <div class="card-top"><h3 class="item-name">Уиски Jameson 50мл</h3><span class="item-price">7.50</span></div>
+                    <div class="item-footer"><span class="item-weight">50 мл.</span></div>
+                </div>
+            </div>
+        </section>
+
+        <div class="wifi-box">
+            <i class="fas fa-wifi" style="font-size: 24px; margin-bottom: 8px; color: #f1c40f;"></i>
+            <div>Wi-Fi Парола: <strong>caesar2025</strong></div>
+        </div>
+    </main>
+
+    <script>
+        function mobFilter() {
+            let input = document.getElementById('mobSearch').value.toUpperCase();
+            
+            // Взимаме всички секции
+            let sections = document.getElementsByClassName('menu-section');
+
+            for (let i = 0; i < sections.length; i++) {
+                let section = sections[i];
+                let cards = section.getElementsByClassName('mobile-card');
+                let hasVisibleCards = false;
+
+                // Въртим цикъл през всички карти в секцията
+                for (let j = 0; j < cards.length; j++) {
+                    let card = cards[j];
+                    let h3 = card.getElementsByTagName('h3')[0];
+                    if (h3) {
+                        let txtValue = h3.textContent || h3.innerText;
+                        if (txtValue.toUpperCase().indexOf(input) > -1) {
+                            card.style.display = ""; // Показва се
+                            hasVisibleCards = true;
+                        } else {
+                            card.style.display = "none"; // Скрива се
+                        }
+                    }
+                }
+
+                // Скриваме/показваме цялата секция
+                if (hasVisibleCards) {
+                    section.style.display = "";
+                } else {
+                    section.style.display = "none";
+                }
+            }
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caesar - Избор на версия</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* 1. ОСНОВНИ НАСТРОЙКИ */
+        * {
+            box-sizing: border-box; /* Гарантира, че размерите включват и рамките */
+        }
+
+        body {
+            margin: 0;
+            padding: 20px; /* Малко въздух отстрани */
+            background-color: #f0f2f5;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            
+            /* Центриране на всичко в средата на екрана */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh; /* Височина поне колкото екрана */
+        }
+
+        .container {
+            text-align: center;
+            width: 100%;
+            max-width: 800px; /* Ограничаваме ширината на големи екрани */
+            padding: 20px;
+        }
+
+        /* 2. ЛОГО - АДАПТИВНО */
+        .logo-img {
+            max-width: 350px; /* Максимална ширина за десктоп */
+            width: 80%;       /* Заема 80% от ширината на контейнера */
+            height: auto;     /* Запазва пропорциите */
+            margin-bottom: 40px;
+            border-radius: 12px;
+            /* Лека сянка за дълбочина */
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1); 
+            background: white; /* В случай че логото е прозрачно, да има бял фон */
+            padding: 10px;
+        }
+
+        /* 3. КОНТЕЙНЕР ЗА БУТОНИТЕ */
+        .buttons-wrapper {
+            display: flex;
+            justify-content: center;
+            gap: 30px; /* Разстояние между бутоните */
+            flex-wrap: wrap; /* Позволява пренасяне на нов ред */
+        }
+
+        /* 4. САМИТЕ БУТОНИ */
+        .device-btn {
+            background-color: white;
+            border: none;
+            border-radius: 20px;
+            width: 180px;  /* Ширина на бутона */
+            height: 180px; /* Височина на бутона */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-decoration: none;
+            color: #333;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .device-btn i {
+            font-size: 60px;
+            margin-bottom: 15px;
+            color: #d32f2f;
+            transition: transform 0.3s ease;
+        }
+
+        .device-btn span {
+            font-size: 18px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Ефект при посочване (само за компютър с мишка) */
+        @media (hover: hover) {
+            .device-btn:hover {
+                transform: translateY(-8px);
+                box-shadow: 0 15px 35px rgba(211, 47, 47, 0.15);
+            }
+            .device-btn:hover i {
+                transform: scale(1.1);
+            }
+        }
+
+        /* --------------------------------------------------------- */
+        /* 5. МАГИЯТА ЗА ТЕЛЕФОНИ (MEDIA QUERIES)                    */
+        /* --------------------------------------------------------- */
+        
+        /* Ако екранът е по-тесен от 600px (стандартен телефон) */
+        @media (max-width: 600px) {
+            
+            .container {
+                padding: 10px;
+            }
+
+            .logo-img {
+                max-width: 250px; /* Логото става по-малко */
+                margin-bottom: 30px;
+            }
+
+            .buttons-wrapper {
+                flex-direction: column; /* Бутоните се подреждат вертикално */
+                align-items: center;    /* Центрираме ги */
+                gap: 20px;              /* Намаляваме разстоянието */
+            }
+
+            .device-btn {
+                width: 100%;       /* Бутонът става широк колкото екрана (почти) */
+                max-width: 280px;  /* Но не прекалено широк */
+                height: 100px;     /* Стават по-ниски (правоъгълни) */
+                flex-direction: row; /* Иконата и текста застават един до друг */
+                gap: 20px;         /* Разстояние между икона и текст */
+            }
+
+            .device-btn i {
+                font-size: 40px;   /* Иконата става по-малка */
+                margin-bottom: 0;  /* Махаме долното разстояние */
+            }
+            
+            .device-btn span {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <img src="logo.png" alt="Caesar Logo" class="logo-img">
+
+        <div class="buttons-wrapper">
+            
+            <a href="desktop.html" class="device-btn">
+                <i class="fas fa-desktop"></i>
+                <span>Десктоп</span>
+            </a>
+
+            <a href="mobile.html" class="device-btn">
+                <i class="fas fa-mobile-alt"></i>
+                <span>Мобилен</span>
+            </a>
+
+        </div>
+    </div>
+
+</body>
+</html>
