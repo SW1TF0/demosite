@@ -19,6 +19,11 @@
             color: #333;
         }
 
+        /* --- ЕЗИКОВИ НАСТРОЙКИ --- */
+        .lang-en { display: none; }
+        body.english-mode .lang-bg { display: none !important; }
+        body.english-mode .lang-en { display: inline; }
+
         /* --- 2. ЛЯВА КОЛОНА (САЙДБАР) --- */
         .sidebar {
             width: 280px;
@@ -108,6 +113,12 @@
             box-shadow: 0 2px 10px rgba(0,0,0,0.03);
         }
 
+        .top-right-area {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
         .search-container { position: relative; width: 300px; }
         .search-input {
             width: 100%;
@@ -121,6 +132,19 @@
         }
         .search-input:focus { border-color: #d32f2f; background: white; box-shadow: 0 0 0 3px rgba(211, 47, 47, 0.1); }
         .search-icon { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #aaa; }
+
+        /* Бутон за език */
+        .lang-btn {
+            background: #fff;
+            border: 1px solid #ddd;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            color: #555;
+            transition: 0.3s;
+        }
+        .lang-btn:hover { background: #f0f0f0; border-color: #ccc; }
 
         /* Банер */
         .hero-banner {
@@ -172,6 +196,7 @@
             flex-direction: column;
             position: relative;
             overflow: hidden;
+            height: 100%; /* Заравняване на височините */
         }
 
         .menu-item:hover {
@@ -192,7 +217,6 @@
             display: flex;
             flex-direction: column;
             flex-grow: 1;
-            justify-content: space-between;
         }
 
         .menu-item::before {
@@ -216,7 +240,6 @@
 
         .item-name { font-size: 18px; font-weight: 700; color: #2c3e50; line-height: 1.3; margin: 0; }
         
-        /* ПРОМЯНА: Намален шрифт за да се съберат и двете валути */
         .item-price { 
             font-size: 16px; 
             font-weight: 800; 
@@ -229,12 +252,60 @@
         }
         
         .item-desc { color: #666; font-size: 14px; margin-bottom: 15px; line-height: 1.5; font-weight: 400; font-style: italic; }
-        .item-weight { font-size: 12px; color: #aaa; text-align: right; font-weight: 600; margin-top: auto; }
+        
+        /* Стил за грамовете */
+        .item-weight { 
+            font-size: 12px; 
+            color: #aaa; 
+            text-align: right; 
+            font-weight: 600; 
+            margin-top: 10px; /* Отместване от алергените */
+            border-top: 1px solid #f0f0f0;
+            padding-top: 8px;
+        }
 
         .badge { font-size: 11px; padding: 2px 8px; border-radius: 12px; margin-left: 6px; font-weight: bold; vertical-align: middle; display: inline-block; transform: translateY(-2px); }
         .badge-spicy { background: #ffebee; color: #c62828; border: 1px solid #ffcdd2; }
         .badge-veg { background: #e8f5e9; color: #2e7d32; border: 1px solid #c8e6c9; }
         .badge-new { background: #fff3e0; color: #ef6c00; border: 1px solid #ffe0b2; }
+
+        /* --- СТИЛОВЕ ЗА АЛЕРГЕНИ --- */
+        .allergen-row {
+            margin-top: auto; /* Избутва алергените надолу, ако има място */
+            font-size: 12px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            align-items: center;
+        }
+        .allergen-title {
+            color: #999;
+            font-weight: bold;
+            margin-right: 3px;
+            font-size: 11px;
+        }
+        .allergen-tag {
+            background: #fff8e1; /* Светло жълто */
+            color: #f57c00;
+            padding: 3px 8px;
+            border-radius: 6px;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            border: 1px solid #ffe0b2;
+            font-weight: 500;
+        }
+        .allergen-tag i { font-size: 10px; }
+
+        /* --- NO RESULTS STYLE --- */
+        .no-results {
+            display: none;
+            text-align: center;
+            padding: 60px;
+            color: #999;
+        }
+        .no-results i { font-size: 60px; margin-bottom: 20px; color: #eee; }
+        .no-results h3 { font-size: 24px; color: #555; }
 
     </style>
 </head>
@@ -246,10 +317,10 @@
         </div>
         
         <ul class="nav-links">
-            <li><a href="#salads"><i class="fas fa-leaf"></i> Салати</a></li>
-            <li><a href="#starters"><i class="fas fa-utensils"></i> Предястия</a></li>
-            <li><a href="#mains"><i class="fas fa-drumstick-bite"></i> Ястия</a></li>
-            <li><a href="#drinks"><i class="fas fa-glass-cheers"></i> Напитки</a></li>
+            <li><a href="#salads"><i class="fas fa-leaf"></i> <span class="lang-bg">Салати</span><span class="lang-en">Salads</span></a></li>
+            <li><a href="#starters"><i class="fas fa-utensils"></i> <span class="lang-bg">Предястия</span><span class="lang-en">Starters</span></a></li>
+            <li><a href="#mains"><i class="fas fa-drumstick-bite"></i> <span class="lang-bg">Ястия</span><span class="lang-en">Mains</span></a></li>
+            <li><a href="#drinks"><i class="fas fa-glass-cheers"></i> <span class="lang-bg">Напитки</span><span class="lang-en">Drinks</span></a></li>
         </ul>
 
         <div class="wifi-widget">
@@ -261,25 +332,41 @@
         </div>
 
         <a href="index.html" class="back-btn">
-            <i class="fas fa-arrow-left"></i> Назад към начало
+            <i class="fas fa-arrow-left"></i> <span class="lang-bg">Назад към начало</span><span class="lang-en">Back to start</span>
         </a>
     </div>
 
     <div class="main-content">
         
         <div class="top-bar">
-            <div style="font-weight: bold; color: #888;">Добре дошли в Caesar</div>
-            <div class="search-container">
-                <i class="fas fa-search search-icon"></i>
-                <input type="text" id="searchInput" class="search-input" placeholder="Търсене в менюто..." onkeyup="filterMenu()">
+            <div style="font-weight: bold; color: #888;">
+                <span class="lang-bg">Добре дошли в Caesar</span>
+                <span class="lang-en">Welcome to Caesar</span>
+            </div>
+            <div class="top-right-area">
+                <div class="search-container">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" id="searchInput" class="search-input" 
+                        data-ph-bg="Търсене в менюто..."
+                        data-ph-en="Search menu..."
+                        placeholder="Търсене в менюто..." 
+                        onkeyup="filterMenu()">
+                </div>
+                <button class="lang-btn" onclick="toggleLanguage()">EN</button>
             </div>
         </div>
 
         <div class="hero-banner">
             <div class="hero-text">
                 <span class="promo-tag">Happy Hour</span>
-                <h1>Опитайте нещо ново</h1>
-                <p>Всеки вторник -20% на всички основни ястия!</p>
+                <h1>
+                    <span class="lang-bg">Опитайте нещо ново</span>
+                    <span class="lang-en">Try Something New</span>
+                </h1>
+                <p>
+                    <span class="lang-bg">Всеки вторник -20% на всички основни ястия!</span>
+                    <span class="lang-en">Every Tuesday -20% on all main courses!</span>
+                </p>
             </div>
             <i class="fas fa-utensils" style="font-size: 80px; opacity: 0.2;"></i>
         </div>
@@ -287,359 +374,762 @@
         <div class="menu-container">
             
             <section id="salads" class="menu-section">
-                <h2 class="section-title"><span>Салати</span></h2>
+                <h2 class="section-title"><span><span class="lang-bg">Салати</span><span class="lang-en">Salads</span></span></h2>
                 <div class="items-grid">
                     <div class="menu-item">
                         <img src="images/cezar.jpg" class="menu-item-img" alt="Цезар">
                         <div class="menu-item-body">
-                            <div class="item-header"><h3 class="item-name">Салата Цезар <span class="badge badge-new">Ново</span></h3><span class="item-price">14.90 лв. / 7.62 €</span></div>
-                            <p class="item-desc">Айсберг, пилешко филе, пармезан, крутони, сос Цезар.</p>
-                            <div class="item-weight">350 гр.</div>
+                            <div class="item-header">
+                                <h3 class="item-name">
+                                    <span class="lang-bg">Салата Цезар</span><span class="lang-en">Caesar Salad</span> 
+                                    <span class="badge badge-new"><span class="lang-bg">Ново</span><span class="lang-en">New</span></span>
+                                </h3>
+                                <span class="item-price">14.90 лв. / 7.62 €</span>
+                            </div>
+                            <p class="item-desc">
+                                <span class="lang-bg">Айсберг, пилешко филе, пармезан, крутони, сос Цезар.</span>
+                                <span class="lang-en">Iceberg, chicken fillet, parmesan, croutons, Caesar sauce.</span>
+                            </p>
+                            <div class="allergen-row">
+                                <span class="allergen-title"><span class="lang-bg">Алергени:</span><span class="lang-en">Allergens:</span></span>
+                                <span class="allergen-tag"><i class="fas fa-bread-slice"></i> <span class="lang-bg">Глутен</span><span class="lang-en">Gluten</span></span>
+                                <span class="allergen-tag"><i class="fas fa-egg"></i> <span class="lang-bg">Яйца</span><span class="lang-en">Eggs</span></span>
+                                <span class="allergen-tag"><i class="fas fa-cheese"></i> <span class="lang-bg">Мляко</span><span class="lang-en">Milk</span></span>
+                            </div>
+                            <div class="item-weight">350 <span class="lang-bg">гр.</span><span class="lang-en">g</span></div>
                         </div>
                     </div>
                     <div class="menu-item">
                         <img src="images/shopska.jpg" class="menu-item-img" alt="Шопска">
                         <div class="menu-item-body">
-                            <div class="item-header"><h3 class="item-name">Шопска салата <span class="badge badge-veg">Веге</span></h3><span class="item-price">9.50 лв. / 4.86 €</span></div>
-                            <p class="item-desc">Домати, краставици, пресен пипер, сирене, магданоз.</p>
-                            <div class="item-weight">400 гр.</div>
+                            <div class="item-header">
+                                <h3 class="item-name">
+                                    <span class="lang-bg">Шопска салата</span><span class="lang-en">Shopska Salad</span> 
+                                    <span class="badge badge-veg"><span class="lang-bg">Веге</span><span class="lang-en">Veg</span></span>
+                                </h3>
+                                <span class="item-price">9.50 лв. / 4.86 €</span>
+                            </div>
+                            <p class="item-desc">
+                                <span class="lang-bg">Домати, краставици, пресен пипер, сирене, магданоз.</span>
+                                <span class="lang-en">Tomatoes, cucumbers, fresh peppers, cheese, parsley.</span>
+                            </p>
+                            <div class="allergen-row">
+                                <span class="allergen-title"><span class="lang-bg">Алергени:</span><span class="lang-en">Allergens:</span></span>
+                                <span class="allergen-tag"><i class="fas fa-cheese"></i> <span class="lang-bg">Мляко</span><span class="lang-en">Milk</span></span>
+                            </div>
+                            <div class="item-weight">400 <span class="lang-bg">гр.</span><span class="lang-en">g</span></div>
                         </div>
                     </div>
                     <div class="menu-item">
                         <img src="images/ovcharska.jpg" class="menu-item-img" alt="Овчарска">
                         <div class="menu-item-body">
-                            <div class="item-header"><h3 class="item-name">Овчарска салата</h3><span class="item-price">10.90 лв. / 5.57 €</span></div>
-                            <p class="item-desc">Шопска салата с добавка на гъби, яйце и шунка.</p>
-                            <div class="item-weight">450 гр.</div>
+                            <div class="item-header">
+                                <h3 class="item-name"><span class="lang-bg">Овчарска салата</span><span class="lang-en">Shepherd's Salad</span></h3>
+                                <span class="item-price">10.90 лв. / 5.57 €</span>
+                            </div>
+                            <p class="item-desc">
+                                <span class="lang-bg">Шопска салата с добавка на гъби, яйце и шунка.</span>
+                                <span class="lang-en">Shopska salad with mushrooms, egg and ham.</span>
+                            </p>
+                            <div class="allergen-row">
+                                <span class="allergen-title"><span class="lang-bg">Алергени:</span><span class="lang-en">Allergens:</span></span>
+                                <span class="allergen-tag"><i class="fas fa-egg"></i> <span class="lang-bg">Яйца</span><span class="lang-en">Eggs</span></span>
+                                <span class="allergen-tag"><i class="fas fa-cheese"></i> <span class="lang-bg">Мляко</span><span class="lang-en">Milk</span></span>
+                            </div>
+                            <div class="item-weight">450 <span class="lang-bg">гр.</span><span class="lang-en">g</span></div>
                         </div>
                     </div>
                     <div class="menu-item">
                         <img src="images/greek.jpg" class="menu-item-img" alt="Гръцка">
                         <div class="menu-item-body">
-                            <div class="item-header"><h3 class="item-name">Гръцка салата <span class="badge badge-veg">Веге</span></h3><span class="item-price">11.50 лв. / 5.88 €</span></div>
-                            <p class="item-desc">Домати, краставици, маслини, червен лук, риган, сирене Фета.</p>
-                            <div class="item-weight">380 гр.</div>
+                            <div class="item-header">
+                                <h3 class="item-name">
+                                    <span class="lang-bg">Гръцка салата</span><span class="lang-en">Greek Salad</span>
+                                </h3>
+                                <span class="item-price">11.50 лв. / 5.88 €</span>
+                            </div>
+                            <p class="item-desc">
+                                <span class="lang-bg">Домати, краставици, маслини, червен лук, риган, сирене Фета.</span>
+                                <span class="lang-en">Tomatoes, cucumbers, olives, red onion, oregano, Feta cheese.</span>
+                            </p>
+                            <div class="allergen-row">
+                                <span class="allergen-title"><span class="lang-bg">Алергени:</span><span class="lang-en">Allergens:</span></span>
+                                <span class="allergen-tag"><i class="fas fa-cheese"></i> <span class="lang-bg">Мляко</span><span class="lang-en">Milk</span></span>
+                            </div>
+                            <div class="item-weight">380 <span class="lang-bg">гр.</span><span class="lang-en">g</span></div>
                         </div>
                     </div>
                     <div class="menu-item">
                         <img src="images/caprese.jpg" class="menu-item-img" alt="Капрезе">
                         <div class="menu-item-body">
-                            <div class="item-header"><h3 class="item-name">Капрезе</h3><span class="item-price">13.20 лв. / 6.75 €</span></div>
-                            <p class="item-desc">Белени домати, моцарела, босилеково песто.</p>
-                            <div class="item-weight">300 гр.</div>
+                            <div class="item-header">
+                                <h3 class="item-name"><span class="lang-bg">Капрезе</span><span class="lang-en">Caprese</span></h3>
+                                <span class="item-price">13.20 лв. / 6.75 €</span>
+                            </div>
+                            <p class="item-desc">
+                                <span class="lang-bg">Белени домати, моцарела, босилеково песто.</span>
+                                <span class="lang-en">Peeled tomatoes, mozzarella, basil pesto.</span>
+                            </p>
+                            <div class="allergen-row">
+                                <span class="allergen-title"><span class="lang-bg">Алергени:</span><span class="lang-en">Allergens:</span></span>
+                                <span class="allergen-tag"><i class="fas fa-cheese"></i> <span class="lang-bg">Мляко</span><span class="lang-en">Milk</span></span>
+                                <span class="allergen-tag"><i class="fas fa-leaf"></i> <span class="lang-bg">Ядки (песто)</span><span class="lang-en">Nuts</span></span>
+                            </div>
+                            <div class="item-weight">300 <span class="lang-bg">гр.</span><span class="lang-en">g</span></div>
                         </div>
                     </div>
                     <div class="menu-item">
                         <img src="images/vitamina.jpg" class="menu-item-img" alt="Витамина">
                         <div class="menu-item-body">
-                            <div class="item-header"><h3 class="item-name">Витамина</h3><span class="item-price">8.90 лв. / 4.55 €</span></div>
-                            <p class="item-desc">Моркови, цвекло, ябълка, дресинг от лимон и мед.</p>
-                            <div class="item-weight">300 гр.</div>
+                            <div class="item-header">
+                                <h3 class="item-name"><span class="lang-bg">Витамина</span><span class="lang-en">Vitamina</span></h3>
+                                <span class="item-price">8.90 лв. / 4.55 €</span>
+                            </div>
+                            <p class="item-desc">
+                                <span class="lang-bg">Моркови, цвекло, ябълка, дресинг от лимон и мед.</span>
+                                <span class="lang-en">Carrots, beetroot, apple, lemon-honey dressing.</span>
+                            </p>
+                            <div class="item-weight">300 <span class="lang-bg">гр.</span><span class="lang-en">g</span></div>
                         </div>
                     </div>
                     <div class="menu-item">
                         <img src="images/tuna.jpg" class="menu-item-img" alt="Риба тон">
                         <div class="menu-item-body">
-                            <div class="item-header"><h3 class="item-name">Зелена салата с риба тон</h3><span class="item-price">12.50 лв. / 6.39 €</span></div>
-                            <p class="item-desc">Маруля, краставици, царевица, риба тон, лимон.</p>
-                            <div class="item-weight">350 гр.</div>
+                            <div class="item-header">
+                                <h3 class="item-name"><span class="lang-bg">Зелена салата с риба тон</span><span class="lang-en">Tuna Salad</span></h3>
+                                <span class="item-price">12.50 лв. / 6.39 €</span>
+                            </div>
+                            <p class="item-desc">
+                                <span class="lang-bg">Маруля, краставици, царевица, риба тон, лимон.</span>
+                                <span class="lang-en">Lettuce, cucumbers, corn, tuna, lemon.</span>
+                            </p>
+                            <div class="allergen-row">
+                                <span class="allergen-title"><span class="lang-bg">Алергени:</span><span class="lang-en">Allergens:</span></span>
+                                <span class="allergen-tag"><i class="fas fa-fish"></i> <span class="lang-bg">Риба</span><span class="lang-en">Fish</span></span>
+                            </div>
+                            <div class="item-weight">350 <span class="lang-bg">гр.</span><span class="lang-en">g</span></div>
                         </div>
                     </div>
                     <div class="menu-item">
                         <img src="images/spinach.jpg" class="menu-item-img" alt="Спаначена">
                         <div class="menu-item-body">
-                            <div class="item-header"><h3 class="item-name">Спаначена салата</h3><span class="item-price">13.90 лв. / 7.11 €</span></div>
-                            <p class="item-desc">Бейби спанак, киноа, сушени домати, синьо сирене.</p>
-                            <div class="item-weight">280 гр.</div>
+                            <div class="item-header">
+                                <h3 class="item-name"><span class="lang-bg">Спаначена салата</span><span class="lang-en">Spinach Salad</span></h3>
+                                <span class="item-price">13.90 лв. / 7.11 €</span>
+                            </div>
+                            <p class="item-desc">
+                                <span class="lang-bg">Бейби спанак, киноа, сушени домати, синьо сирене.</span>
+                                <span class="lang-en">Baby spinach, quinoa, sun-dried tomatoes, blue cheese.</span>
+                            </p>
+                            <div class="allergen-row">
+                                <span class="allergen-title"><span class="lang-bg">Алергени:</span><span class="lang-en">Allergens:</span></span>
+                                <span class="allergen-tag"><i class="fas fa-cheese"></i> <span class="lang-bg">Мляко</span><span class="lang-en">Milk</span></span>
+                            </div>
+                            <div class="item-weight">280 <span class="lang-bg">гр.</span><span class="lang-en">g</span></div>
                         </div>
                     </div>
                     <div class="menu-item">
                         <img src="images/pink_tomatoes.jpg" class="menu-item-img" alt="Розови домати">
                         <div class="menu-item-body">
-                            <div class="item-header"><h3 class="item-name">Розови домати с биволско сирене</h3><span class="item-price">15.50 лв. / 7.93 €</span></div>
-                            <p class="item-desc">Селски розови домати, домашно биволско сирене, печен пипер.</p>
-                            <div class="item-weight">400 гр.</div>
+                            <div class="item-header">
+                                <h3 class="item-name"><span class="lang-bg">Розови домати</span><span class="lang-en">Pink Tomatoes</span></h3>
+                                <span class="item-price">15.50 лв. / 7.93 €</span>
+                            </div>
+                            <p class="item-desc">
+                                <span class="lang-bg">Селски розови домати, домашно биволско сирене, печен пипер.</span>
+                                <span class="lang-en">Rustic pink tomatoes, buffalo cheese, roasted peppers.</span>
+                            </p>
+                            <div class="allergen-row">
+                                <span class="allergen-title"><span class="lang-bg">Алергени:</span><span class="lang-en">Allergens:</span></span>
+                                <span class="allergen-tag"><i class="fas fa-cheese"></i> <span class="lang-bg">Мляко</span><span class="lang-en">Milk</span></span>
+                            </div>
+                            <div class="item-weight">400 <span class="lang-bg">гр.</span><span class="lang-en">g</span></div>
                         </div>
                     </div>
                     <div class="menu-item">
                         <img src="images/snezhanka.jpg" class="menu-item-img" alt="Снежанка">
                         <div class="menu-item-body">
-                            <div class="item-header"><h3 class="item-name">Снежанка</h3><span class="item-price">8.50 лв. / 4.35 €</span></div>
-                            <p class="item-desc">Цедено кисело мляко, кисели краставички, копър, орехи.</p>
-                            <div class="item-weight">250 гр.</div>
+                            <div class="item-header">
+                                <h3 class="item-name"><span class="lang-bg">Снежанка</span><span class="lang-en">Snow White Salad</span></h3>
+                                <span class="item-price">8.50 лв. / 4.35 €</span>
+                            </div>
+                            <p class="item-desc">
+                                <span class="lang-bg">Цедено кисело мляко, кисели краставички, копър, орехи.</span>
+                                <span class="lang-en">Strained yogurt, pickles, dill, walnuts.</span>
+                            </p>
+                            <div class="allergen-row">
+                                <span class="allergen-title"><span class="lang-bg">Алергени:</span><span class="lang-en">Allergens:</span></span>
+                                <span class="allergen-tag"><i class="fas fa-cheese"></i> <span class="lang-bg">Мляко</span><span class="lang-en">Milk</span></span>
+                                <span class="allergen-tag"><i class="fas fa-leaf"></i> <span class="lang-bg">Ядки</span><span class="lang-en">Nuts</span></span>
+                            </div>
+                            <div class="item-weight">250 <span class="lang-bg">гр.</span><span class="lang-en">g</span></div>
                         </div>
                     </div>
                 </div>
             </section>
 
             <section id="starters" class="menu-section">
-                <h2 class="section-title"><span>Предястия</span></h2>
+                <h2 class="section-title"><span><span class="lang-bg">Предястия</span><span class="lang-en">Starters</span></span></h2>
                 <div class="items-grid">
                     <div class="menu-item">
                         <img src="images/kashkaval_pane.jpg" class="menu-item-img" alt="Кашкавал">
                         <div class="menu-item-body">
-                            <div class="item-header"><h3 class="item-name">Кашкавал пане</h3><span class="item-price">10.90 лв. / 5.57 €</span></div>
-                            <p class="item-desc">Класически кашкавал с хрупкава панировка.</p>
-                            <div class="item-weight">250 гр.</div>
+                            <div class="item-header">
+                                <h3 class="item-name"><span class="lang-bg">Кашкавал пане</span><span class="lang-en">Breaded Yellow Cheese</span></h3>
+                                <span class="item-price">10.90 лв. / 5.57 €</span>
+                            </div>
+                            <p class="item-desc">
+                                <span class="lang-bg">Класически кашкавал с хрупкава панировка.</span>
+                                <span class="lang-en">Classic yellow cheese with crispy breading.</span>
+                            </p>
+                            <div class="allergen-row">
+                                <span class="allergen-title"><span class="lang-bg">Алергени:</span><span class="lang-en">Allergens:</span></span>
+                                <span class="allergen-tag"><i class="fas fa-bread-slice"></i> <span class="lang-bg">Глутен</span><span class="lang-en">Gluten</span></span>
+                                <span class="allergen-tag"><i class="fas fa-egg"></i> <span class="lang-bg">Яйца</span><span class="lang-en">Eggs</span></span>
+                                <span class="allergen-tag"><i class="fas fa-cheese"></i> <span class="lang-bg">Мляко</span><span class="lang-en">Milk</span></span>
+                            </div>
+                            <div class="item-weight">250 <span class="lang-bg">гр.</span><span class="lang-en">g</span></div>
                         </div>
                     </div>
                     <div class="menu-item">
                         <img src="images/sirene_shopski.jpg" class="menu-item-img" alt="Сирене по шопски">
                         <div class="menu-item-body">
-                            <div class="item-header"><h3 class="item-name">Сирене по шопски</h3><span class="item-price">9.90 лв. / 5.06 €</span></div>
-                            <p class="item-desc">Сирене, домати, яйце и люта чушка в гювече.</p>
-                            <div class="item-weight">300 гр.</div>
+                            <div class="item-header">
+                                <h3 class="item-name"><span class="lang-bg">Сирене по шопски</span><span class="lang-en">Shopski Style Cheese</span></h3>
+                                <span class="item-price">9.90 лв. / 5.06 €</span>
+                            </div>
+                            <p class="item-desc">
+                                <span class="lang-bg">Сирене, домати, яйце и люта чушка в гювече.</span>
+                                <span class="lang-en">Cheese, tomatoes, egg and hot pepper in a clay pot.</span>
+                            </p>
+                            <div class="allergen-row">
+                                <span class="allergen-title"><span class="lang-bg">Алергени:</span><span class="lang-en">Allergens:</span></span>
+                                <span class="allergen-tag"><i class="fas fa-cheese"></i> <span class="lang-bg">Мляко</span><span class="lang-en">Milk</span></span>
+                                <span class="allergen-tag"><i class="fas fa-egg"></i> <span class="lang-bg">Яйца</span><span class="lang-en">Eggs</span></span>
+                            </div>
+                            <div class="item-weight">300 <span class="lang-bg">гр.</span><span class="lang-en">g</span></div>
                         </div>
                     </div>
                     <div class="menu-item">
                         <img src="images/nuggets.jpg" class="menu-item-img" alt="Хапки">
                         <div class="menu-item-body">
-                            <div class="item-header"><h3 class="item-name">Пилешки хапки</h3><span class="item-price">12.50 лв. / 6.39 €</span></div>
-                            <p class="item-desc">Панирани хапки с корнфлейкс и чеснов сос.</p>
-                            <div class="item-weight">250 гр.</div>
+                            <div class="item-header">
+                                <h3 class="item-name"><span class="lang-bg">Пилешки хапки</span><span class="lang-en">Chicken Nuggets</span></h3>
+                                <span class="item-price">12.50 лв. / 6.39 €</span>
+                            </div>
+                            <p class="item-desc">
+                                <span class="lang-bg">Панирани хапки с корнфлейкс и чеснов сос.</span>
+                                <span class="lang-en">Breaded nuggets with cornflakes and garlic sauce.</span>
+                            </p>
+                            <div class="allergen-row">
+                                <span class="allergen-title"><span class="lang-bg">Алергени:</span><span class="lang-en">Allergens:</span></span>
+                                <span class="allergen-tag"><i class="fas fa-bread-slice"></i> <span class="lang-bg">Глутен</span><span class="lang-en">Gluten</span></span>
+                                <span class="allergen-tag"><i class="fas fa-egg"></i> <span class="lang-bg">Яйца</span><span class="lang-en">Eggs</span></span>
+                            </div>
+                            <div class="item-weight">250 <span class="lang-bg">гр.</span><span class="lang-en">g</span></div>
                         </div>
                     </div>
                     <div class="menu-item">
                         <img src="images/zucchini.jpg" class="menu-item-img" alt="Тиквички">
                         <div class="menu-item-body">
-                            <div class="item-header"><h3 class="item-name">Хрупкави тиквички</h3><span class="item-price">10.50 лв. / 5.37 €</span></div>
-                            <p class="item-desc">Тънко нарязани тиквички по гръцки с млечен сос.</p>
-                            <div class="item-weight">280 гр.</div>
+                            <div class="item-header">
+                                <h3 class="item-name"><span class="lang-bg">Хрупкави тиквички</span><span class="lang-en">Crispy Zucchini</span></h3>
+                                <span class="item-price">10.50 лв. / 5.37 €</span>
+                            </div>
+                            <p class="item-desc">
+                                <span class="lang-bg">Тънко нарязани тиквички по гръцки с млечен сос.</span>
+                                <span class="lang-en">Thinly sliced Greek-style zucchini with yogurt sauce.</span>
+                            </p>
+                            <div class="allergen-row">
+                                <span class="allergen-title"><span class="lang-bg">Алергени:</span><span class="lang-en">Allergens:</span></span>
+                                <span class="allergen-tag"><i class="fas fa-bread-slice"></i> <span class="lang-bg">Глутен</span><span class="lang-en">Gluten</span></span>
+                                <span class="allergen-tag"><i class="fas fa-cheese"></i> <span class="lang-bg">Мляко</span><span class="lang-en">Milk</span></span>
+                            </div>
+                            <div class="item-weight">280 <span class="lang-bg">гр.</span><span class="lang-en">g</span></div>
                         </div>
                     </div>
                     <div class="menu-item">
                         <img src="images/mushrooms.jpg" class="menu-item-img" alt="Гъби">
                         <div class="menu-item-body">
-                            <div class="item-header"><h3 class="item-name">Гъби в масло</h3><span class="item-price">9.20 лв. / 4.70 €</span></div>
-                            <p class="item-desc">Пресни печурки, масло, копър и чесън.</p>
-                            <div class="item-weight">200 гр.</div>
+                            <div class="item-header">
+                                <h3 class="item-name"><span class="lang-bg">Гъби в масло</span><span class="lang-en">Mushrooms in Butter</span></h3>
+                                <span class="item-price">9.20 лв. / 4.70 €</span>
+                            </div>
+                            <p class="item-desc">
+                                <span class="lang-bg">Пресни печурки, масло, копър и чесън.</span>
+                                <span class="lang-en">Fresh mushrooms, butter, dill and garlic.</span>
+                            </p>
+                            <div class="allergen-row">
+                                <span class="allergen-title"><span class="lang-bg">Алергени:</span><span class="lang-en">Allergens:</span></span>
+                                <span class="allergen-tag"><i class="fas fa-cheese"></i> <span class="lang-bg">Мляко</span><span class="lang-en">Milk</span></span>
+                            </div>
+                            <div class="item-weight">200 <span class="lang-bg">гр.</span><span class="lang-en">g</span></div>
                         </div>
                     </div>
                     <div class="menu-item">
                         <img src="images/melted_cheese.jpg" class="menu-item-img" alt="Топени сиренца">
                         <div class="menu-item-body">
-                            <div class="item-header"><h3 class="item-name">Топени сиренца</h3><span class="item-price">11.90 лв. / 6.08 €</span></div>
-                            <p class="item-desc">Панирани топени сирена със сладко от боровинки.</p>
-                            <div class="item-weight">220 гр.</div>
+                            <div class="item-header">
+                                <h3 class="item-name"><span class="lang-bg">Топени сиренца</span><span class="lang-en">Melted Cheese Bites</span></h3>
+                                <span class="item-price">11.90 лв. / 6.08 €</span>
+                            </div>
+                            <p class="item-desc">
+                                <span class="lang-bg">Панирани топени сирена със сладко от боровинки.</span>
+                                <span class="lang-en">Breaded processed cheese with blueberry jam.</span>
+                            </p>
+                            <div class="allergen-row">
+                                <span class="allergen-title"><span class="lang-bg">Алергени:</span><span class="lang-en">Allergens:</span></span>
+                                <span class="allergen-tag"><i class="fas fa-cheese"></i> <span class="lang-bg">Мляко</span><span class="lang-en">Milk</span></span>
+                                <span class="allergen-tag"><i class="fas fa-bread-slice"></i> <span class="lang-bg">Глутен</span><span class="lang-en">Gluten</span></span>
+                                <span class="allergen-tag"><i class="fas fa-egg"></i> <span class="lang-bg">Яйца</span><span class="lang-en">Eggs</span></span>
+                            </div>
+                            <div class="item-weight">220 <span class="lang-bg">гр.</span><span class="lang-en">g</span></div>
                         </div>
                     </div>
                     <div class="menu-item">
                         <img src="images/wings.jpg" class="menu-item-img" alt="Крилца">
                         <div class="menu-item-body">
-                            <div class="item-header"><h3 class="item-name">Пикантни крилца <span class="badge badge-spicy">🌶️</span></h3><span class="item-price">11.50 лв. / 5.88 €</span></div>
-                            <p class="item-desc">Пикантни крилца с барбекю глазура.</p>
-                            <div class="item-weight">350 гр.</div>
+                            <div class="item-header">
+                                <h3 class="item-name">
+                                    <span class="lang-bg">Пикантни крилца</span><span class="lang-en">Spicy Wings</span> 
+                                    <span class="badge badge-spicy">🌶️</span>
+                                </h3>
+                                <span class="item-price">11.50 лв. / 5.88 €</span>
+                            </div>
+                            <p class="item-desc">
+                                <span class="lang-bg">Пикантни крилца с барбекю глазура.</span>
+                                <span class="lang-en">Spicy wings with BBQ glaze.</span>
+                            </p>
+                            <div class="item-weight">350 <span class="lang-bg">гр.</span><span class="lang-en">g</span></div>
                         </div>
                     </div>
                     <div class="menu-item">
                         <img src="images/tongue.jpg" class="menu-item-img" alt="Език">
                         <div class="menu-item-body">
-                            <div class="item-header"><h3 class="item-name">Телешки език в масло</h3><span class="item-price">14.90 лв. / 7.62 €</span></div>
-                            <p class="item-desc">Крехък телешки език, задушен в масло.</p>
-                            <div class="item-weight">200 гр.</div>
+                            <div class="item-header">
+                                <h3 class="item-name"><span class="lang-bg">Телешки език в масло</span><span class="lang-en">Beef Tongue</span></h3>
+                                <span class="item-price">14.90 лв. / 7.62 €</span>
+                            </div>
+                            <p class="item-desc">
+                                <span class="lang-bg">Крехък телешки език, задушен в масло.</span>
+                                <span class="lang-en">Tender beef tongue stewed in butter.</span>
+                            </p>
+                            <div class="allergen-row">
+                                <span class="allergen-title"><span class="lang-bg">Алергени:</span><span class="lang-en">Allergens:</span></span>
+                                <span class="allergen-tag"><i class="fas fa-cheese"></i> <span class="lang-bg">Мляко</span><span class="lang-en">Milk</span></span>
+                            </div>
+                            <div class="item-weight">200 <span class="lang-bg">гр.</span><span class="lang-en">g</span></div>
                         </div>
                     </div>
                     <div class="menu-item">
                         <img src="images/tarama.jpg" class="menu-item-img" alt="Тарама">
                         <div class="menu-item-body">
-                            <div class="item-header"><h3 class="item-name">Тарама хайвер</h3><span class="item-price">8.50 лв. / 4.35 €</span></div>
-                            <p class="item-desc">Домашен разбит хайвер с препечени филийки.</p>
-                            <div class="item-weight">150 гр.</div>
+                            <div class="item-header">
+                                <h3 class="item-name"><span class="lang-bg">Тарама хайвер</span><span class="lang-en">Tarama Fish Roe</span></h3>
+                                <span class="item-price">8.50 лв. / 4.35 €</span>
+                            </div>
+                            <p class="item-desc">
+                                <span class="lang-bg">Домашен разбит хайвер с препечени филийки.</span>
+                                <span class="lang-en">Homemade whipped fish roe with toast.</span>
+                            </p>
+                            <div class="allergen-row">
+                                <span class="allergen-title"><span class="lang-bg">Алергени:</span><span class="lang-en">Allergens:</span></span>
+                                <span class="allergen-tag"><i class="fas fa-fish"></i> <span class="lang-bg">Риба</span><span class="lang-en">Fish</span></span>
+                                <span class="allergen-tag"><i class="fas fa-bread-slice"></i> <span class="lang-bg">Глутен</span><span class="lang-en">Gluten</span></span>
+                            </div>
+                            <div class="item-weight">150 <span class="lang-bg">гр.</span><span class="lang-en">g</span></div>
                         </div>
                     </div>
                     <div class="menu-item">
                         <img src="images/cheese_platter.jpg" class="menu-item-img" alt="Плато">
                         <div class="menu-item-body">
-                            <div class="item-header"><h3 class="item-name">Плато сирена</h3><span class="item-price">24.00 лв. / 12.27 €</span></div>
-                            <p class="item-desc">Синьо сирене, бри, камембер, ементал, орехи и плодове.</p>
-                            <div class="item-weight">400 гр.</div>
+                            <div class="item-header">
+                                <h3 class="item-name"><span class="lang-bg">Плато сирена</span><span class="lang-en">Cheese Platter</span></h3>
+                                <span class="item-price">24.00 лв. / 12.27 €</span>
+                            </div>
+                            <p class="item-desc">
+                                <span class="lang-bg">Синьо сирене, бри, камембер, ементал, орехи и плодове.</span>
+                                <span class="lang-en">Blue cheese, brie, camembert, emmental, walnuts and fruits.</span>
+                            </p>
+                            <div class="allergen-row">
+                                <span class="allergen-title"><span class="lang-bg">Алергени:</span><span class="lang-en">Allergens:</span></span>
+                                <span class="allergen-tag"><i class="fas fa-cheese"></i> <span class="lang-bg">Мляко</span><span class="lang-en">Milk</span></span>
+                                <span class="allergen-tag"><i class="fas fa-leaf"></i> <span class="lang-bg">Ядки</span><span class="lang-en">Nuts</span></span>
+                            </div>
+                            <div class="item-weight">400 <span class="lang-bg">гр.</span><span class="lang-en">g</span></div>
                         </div>
                     </div>
                 </div>
             </section>
 
             <section id="mains" class="menu-section">
-                <h2 class="section-title"><span>Основни ястия</span></h2>
+                <h2 class="section-title"><span><span class="lang-bg">Основни ястия</span><span class="lang-en">Main Courses</span></span></h2>
                 <div class="items-grid">
                     <div class="menu-item">
                         <img src="images/ribs.jpg" class="menu-item-img" alt="Ребърца">
                         <div class="menu-item-body">
-                            <div class="item-header"><h3 class="item-name">Свински ребърца</h3><span class="item-price">22.90 лв. / 11.71 €</span></div>
-                            <p class="item-desc">Бавно печени ребърца с BBQ сос и пържени картофи.</p>
-                            <div class="item-weight">500 гр.</div>
+                            <div class="item-header">
+                                <h3 class="item-name"><span class="lang-bg">Свински ребърца</span><span class="lang-en">Pork Ribs</span></h3>
+                                <span class="item-price">22.90 лв. / 11.71 €</span>
+                            </div>
+                            <p class="item-desc">
+                                <span class="lang-bg">Бавно печени ребърца с BBQ сос и пържени картофи.</span>
+                                <span class="lang-en">Slow-roasted ribs with BBQ sauce and french fries.</span>
+                            </p>
+                            <div class="item-weight">500 <span class="lang-bg">гр.</span><span class="lang-en">g</span></div>
                         </div>
                     </div>
                     <div class="menu-item">
                         <img src="images/chicken_steak.jpg" class="menu-item-img" alt="Пържола">
                         <div class="menu-item-body">
-                            <div class="item-header"><h3 class="item-name">Пилешка пържола</h3><span class="item-price">14.50 лв. / 7.41 €</span></div>
-                            <p class="item-desc">Пилешко филе на скара с гриловани зеленчуци.</p>
-                            <div class="item-weight">350 гр.</div>
+                            <div class="item-header">
+                                <h3 class="item-name"><span class="lang-bg">Пилешка пържола</span><span class="lang-en">Chicken Steak</span></h3>
+                                <span class="item-price">14.50 лв. / 7.41 €</span>
+                            </div>
+                            <p class="item-desc">
+                                <span class="lang-bg">Пилешко филе на скара с гриловани зеленчуци.</span>
+                                <span class="lang-en">Grilled chicken fillet with grilled vegetables.</span>
+                            </p>
+                            <div class="item-weight">350 <span class="lang-bg">гр.</span><span class="lang-en">g</span></div>
                         </div>
                     </div>
                     <div class="menu-item">
                         <img src="images/pork_neck.jpg" class="menu-item-img" alt="Врат">
                         <div class="menu-item-body">
-                            <div class="item-header"><h3 class="item-name">Свински врат на скара</h3><span class="item-price">16.90 лв. / 8.64 €</span></div>
-                            <p class="item-desc">Сочен свински врат на скара с гъбен сос.</p>
-                            <div class="item-weight">400 гр.</div>
+                            <div class="item-header">
+                                <h3 class="item-name"><span class="lang-bg">Свински врат на скара</span><span class="lang-en">Grilled Pork Neck</span></h3>
+                                <span class="item-price">16.90 лв. / 8.64 €</span>
+                            </div>
+                            <p class="item-desc">
+                                <span class="lang-bg">Сочен свински врат на скара с гъбен сос.</span>
+                                <span class="lang-en">Juicy grilled pork neck with mushroom sauce.</span>
+                            </p>
+                            <div class="allergen-row">
+                                <span class="allergen-title"><span class="lang-bg">Алергени:</span><span class="lang-en">Allergens:</span></span>
+                                <span class="allergen-tag"><i class="fas fa-cheese"></i> <span class="lang-bg">Мляко (сметана)</span><span class="lang-en">Milk (cream)</span></span>
+                            </div>
+                            <div class="item-weight">400 <span class="lang-bg">гр.</span><span class="lang-en">g</span></div>
                         </div>
                     </div>
                     <div class="menu-item">
                         <img src="images/risotto.jpg" class="menu-item-img" alt="Ризото">
                         <div class="menu-item-body">
-                            <div class="item-header"><h3 class="item-name">Ризото с манатарки <span class="badge badge-veg">Веге</span></h3><span class="item-price">15.90 лв. / 8.13 €</span></div>
-                            <p class="item-desc">Ориз Арборио, диви манатарки, пармезан, бяло вино.</p>
-                            <div class="item-weight">300 гр.</div>
+                            <div class="item-header">
+                                <h3 class="item-name">
+                                    <span class="lang-bg">Ризото с манатарки</span><span class="lang-en">Boletus Risotto</span>
+                                </h3>
+                                <span class="item-price">15.90 лв. / 8.13 €</span>
+                            </div>
+                            <p class="item-desc">
+                                <span class="lang-bg">Ориз Арборио, диви манатарки, пармезан, бяло вино.</span>
+                                <span class="lang-en">Arborio rice, wild boletus, parmesan, white wine.</span>
+                            </p>
+                            <div class="allergen-row">
+                                <span class="allergen-title"><span class="lang-bg">Алергени:</span><span class="lang-en">Allergens:</span></span>
+                                <span class="allergen-tag"><i class="fas fa-cheese"></i> <span class="lang-bg">Мляко</span><span class="lang-en">Milk</span></span>
+                            </div>
+                            <div class="item-weight">300 <span class="lang-bg">гр.</span><span class="lang-en">g</span></div>
                         </div>
                     </div>
                     <div class="menu-item">
                         <img src="images/carbonara.jpg" class="menu-item-img" alt="Карбонара">
                         <div class="menu-item-body">
-                            <div class="item-header"><h3 class="item-name">Спагети Карбонара</h3><span class="item-price">14.90 лв. / 7.62 €</span></div>
-                            <p class="item-desc">Оригинална рецепта с гуанчале/бекон, яйце и пекорино.</p>
-                            <div class="item-weight">350 гр.</div>
+                            <div class="item-header">
+                                <h3 class="item-name"><span class="lang-bg">Спагети Карбонара</span><span class="lang-en">Spaghetti Carbonara</span></h3>
+                                <span class="item-price">14.90 лв. / 7.62 €</span>
+                            </div>
+                            <p class="item-desc">
+                                <span class="lang-bg">Оригинална рецепта с гуанчале/бекон, яйце и пекорино.</span>
+                                <span class="lang-en">Original recipe with guanciale, egg and pecorino.</span>
+                            </p>
+                            <div class="allergen-row">
+                                <span class="allergen-title"><span class="lang-bg">Алергени:</span><span class="lang-en">Allergens:</span></span>
+                                <span class="allergen-tag"><i class="fas fa-bread-slice"></i> <span class="lang-bg">Глутен</span><span class="lang-en">Gluten</span></span>
+                                <span class="allergen-tag"><i class="fas fa-egg"></i> <span class="lang-bg">Яйца</span><span class="lang-en">Eggs</span></span>
+                                <span class="allergen-tag"><i class="fas fa-cheese"></i> <span class="lang-bg">Мляко</span><span class="lang-en">Milk</span></span>
+                            </div>
+                            <div class="item-weight">350 <span class="lang-bg">гр.</span><span class="lang-en">g</span></div>
                         </div>
                     </div>
                     <div class="menu-item">
                         <img src="images/burger.jpg" class="menu-item-img" alt="Бургер">
                         <div class="menu-item-body">
-                            <div class="item-header"><h3 class="item-name">Телешки бургер</h3><span class="item-price">18.50 лв. / 9.46 €</span></div>
-                            <p class="item-desc">Бриош питка, 100% телешко месо, чедър, карамелизиран лук.</p>
-                            <div class="item-weight">400 гр.</div>
+                            <div class="item-header">
+                                <h3 class="item-name"><span class="lang-bg">Телешки бургер</span><span class="lang-en">Beef Burger</span></h3>
+                                <span class="item-price">18.50 лв. / 9.46 €</span>
+                            </div>
+                            <p class="item-desc">
+                                <span class="lang-bg">Бриош питка, 100% телешко месо, чедър, карамелизиран лук.</span>
+                                <span class="lang-en">Brioche bun, 100% beef, cheddar, caramelized onions.</span>
+                            </p>
+                            <div class="allergen-row">
+                                <span class="allergen-title"><span class="lang-bg">Алергени:</span><span class="lang-en">Allergens:</span></span>
+                                <span class="allergen-tag"><i class="fas fa-bread-slice"></i> <span class="lang-bg">Глутен</span><span class="lang-en">Gluten</span></span>
+                                <span class="allergen-tag"><i class="fas fa-cheese"></i> <span class="lang-bg">Мляко</span><span class="lang-en">Milk</span></span>
+                            </div>
+                            <div class="item-weight">400 <span class="lang-bg">гр.</span><span class="lang-en">g</span></div>
                         </div>
                     </div>
                     <div class="menu-item">
                         <img src="images/salmon.jpg" class="menu-item-img" alt="Сьомга">
                         <div class="menu-item-body">
-                            <div class="item-header"><h3 class="item-name">Сьомга на плоча</h3><span class="item-price">26.00 лв. / 13.29 €</span></div>
-                            <p class="item-desc">Филе от сьомга с гарнитура аспержи и лимонов сос.</p>
-                            <div class="item-weight">300 гр.</div>
+                            <div class="item-header">
+                                <h3 class="item-name"><span class="lang-bg">Сьомга на плоча</span><span class="lang-en">Grilled Salmon</span></h3>
+                                <span class="item-price">26.00 лв. / 13.29 €</span>
+                            </div>
+                            <p class="item-desc">
+                                <span class="lang-bg">Филе от сьомга с гарнитура аспержи и лимонов сос.</span>
+                                <span class="lang-en">Salmon fillet with asparagus and lemon sauce.</span>
+                            </p>
+                            <div class="allergen-row">
+                                <span class="allergen-title"><span class="lang-bg">Алергени:</span><span class="lang-en">Allergens:</span></span>
+                                <span class="allergen-tag"><i class="fas fa-fish"></i> <span class="lang-bg">Риба</span><span class="lang-en">Fish</span></span>
+                            </div>
+                            <div class="item-weight">300 <span class="lang-bg">гр.</span><span class="lang-en">g</span></div>
                         </div>
                     </div>
                     <div class="menu-item">
                         <img src="images/chicken_4_cheese.jpg" class="menu-item-img" alt="Пиле">
                         <div class="menu-item-body">
-                            <div class="item-header"><h3 class="item-name">Пиле с четири сирена</h3><span class="item-price">17.50 лв. / 8.95 €</span></div>
-                            <p class="item-desc">Пилешко филе в богат сос от четири вида сирена.</p>
-                            <div class="item-weight">350 гр.</div>
+                            <div class="item-header">
+                                <h3 class="item-name"><span class="lang-bg">Пиле с четири сирена</span><span class="lang-en">Chicken 4 Cheeses</span></h3>
+                                <span class="item-price">17.50 лв. / 8.95 €</span>
+                            </div>
+                            <p class="item-desc">
+                                <span class="lang-bg">Пилешко филе в богат сос от четири вида сирена.</span>
+                                <span class="lang-en">Chicken fillet in rich four cheese sauce.</span>
+                            </p>
+                            <div class="allergen-row">
+                                <span class="allergen-title"><span class="lang-bg">Алергени:</span><span class="lang-en">Allergens:</span></span>
+                                <span class="allergen-tag"><i class="fas fa-cheese"></i> <span class="lang-bg">Мляко</span><span class="lang-en">Milk</span></span>
+                            </div>
+                            <div class="item-weight">350 <span class="lang-bg">гр.</span><span class="lang-en">g</span></div>
                         </div>
                     </div>
                     <div class="menu-item">
                         <img src="images/sache.jpg" class="menu-item-img" alt="Саче">
                         <div class="menu-item-body">
-                            <div class="item-header"><h3 class="item-name">Саче по родопски</h3><span class="item-price">28.90 лв. / 14.78 €</span></div>
-                            <p class="item-desc">Свинско, пилешко, наденица и зеленчуци на чугунена плоча.</p>
-                            <div class="item-weight">800 гр.</div>
+                            <div class="item-header">
+                                <h3 class="item-name"><span class="lang-bg">Саче по родопски</span><span class="lang-en">Sache "Rodopi"</span></h3>
+                                <span class="item-price">28.90 лв. / 14.78 €</span>
+                            </div>
+                            <p class="item-desc">
+                                <span class="lang-bg">Свинско, пилешко, наденица и зеленчуци на чугунена плоча.</span>
+                                <span class="lang-en">Pork, chicken, sausage and vegetables on a hot iron plate.</span>
+                            </p>
+                            <div class="item-weight">800 <span class="lang-bg">гр.</span><span class="lang-en">g</span></div>
                         </div>
                     </div>
                     <div class="menu-item">
                         <img src="images/sea_bream.jpg" class="menu-item-img" alt="Ципура">
                         <div class="menu-item-body">
-                            <div class="item-header"><h3 class="item-name">Ципура на скара</h3><span class="item-price">22.50 лв. / 11.50 €</span></div>
-                            <p class="item-desc">Цяла риба с гарнитура варени картофи.</p>
-                            <div class="item-weight">400 гр.</div>
+                            <div class="item-header">
+                                <h3 class="item-name"><span class="lang-bg">Ципура на скара</span><span class="lang-en">Grilled Sea Bream</span></h3>
+                                <span class="item-price">22.50 лв. / 11.50 €</span>
+                            </div>
+                            <p class="item-desc">
+                                <span class="lang-bg">Цяла риба с гарнитура варени картофи.</span>
+                                <span class="lang-en">Whole fish with boiled potatoes.</span>
+                            </p>
+                            <div class="allergen-row">
+                                <span class="allergen-title"><span class="lang-bg">Алергени:</span><span class="lang-en">Allergens:</span></span>
+                                <span class="allergen-tag"><i class="fas fa-fish"></i> <span class="lang-bg">Риба</span><span class="lang-en">Fish</span></span>
+                            </div>
+                            <div class="item-weight">400 <span class="lang-bg">гр.</span><span class="lang-en">g</span></div>
                         </div>
                     </div>
                 </div>
             </section>
 
             <section id="drinks" class="menu-section">
-                <h2 class="section-title"><span>Напитки</span></h2>
+                <h2 class="section-title"><span><span class="lang-bg">Напитки</span><span class="lang-en">Drinks</span></span></h2>
                 <div class="items-grid">
                     <div class="menu-item">
                         <img src="images/coke.jpg" class="menu-item-img" alt="Кола">
                         <div class="menu-item-body">
-                            <div class="item-header"><h3 class="item-name">Кока Кола</h3><span class="item-price">3.50 лв. / 1.79 €</span></div>
-                            <p class="item-desc">Класика, Зеро.</p>
-                            <div class="item-weight">250 мл.</div>
+                            <div class="item-header">
+                                <h3 class="item-name"><span class="lang-bg">Кока Кола</span><span class="lang-en">Coca Cola</span></h3>
+                                <span class="item-price">3.50 лв. / 1.79 €</span>
+                            </div>
+                            <p class="item-desc">
+                                <span class="lang-bg">Класика, Зеро.</span><span class="lang-en">Classic, Zero.</span>
+                            </p>
+                            <div class="item-weight">250 <span class="lang-bg">мл.</span><span class="lang-en">ml.</span></div>
                         </div>
                     </div>
                     <div class="menu-item">
                         <img src="images/water.jpg" class="menu-item-img" alt="Вода">
                         <div class="menu-item-body">
-                            <div class="item-header"><h3 class="item-name">Минерална вода</h3><span class="item-price">2.50 лв. / 1.28 €</span></div>
-                            <p class="item-desc">Банкя / Девин.</p>
-                            <div class="item-weight">330 мл.</div>
+                            <div class="item-header">
+                                <h3 class="item-name"><span class="lang-bg">Минерална вода</span><span class="lang-en">Mineral Water</span></h3>
+                                <span class="item-price">2.50 лв. / 1.28 €</span>
+                            </div>
+                            <p class="item-desc">
+                                <span class="lang-bg">Банкя / Девин.</span><span class="lang-en">Bankia / Devin.</span>
+                            </p>
+                            <div class="item-weight">330 <span class="lang-bg">мл.</span><span class="lang-en">ml.</span></div>
                         </div>
                     </div>
                     <div class="menu-item">
                         <img src="images/lemonade.jpg" class="menu-item-img" alt="Лимонада">
                         <div class="menu-item-body">
-                            <div class="item-header"><h3 class="item-name">Домашна лимонада <span class="badge badge-new">Ново</span></h3><span class="item-price">5.90 лв. / 3.02 €</span></div>
-                            <p class="item-desc">Лимон, мента, мед и джинджифил.</p>
-                            <div class="item-weight">400 мл.</div>
+                            <div class="item-header">
+                                <h3 class="item-name">
+                                    <span class="lang-bg">Домашна лимонада</span><span class="lang-en">Homemade Lemonade</span> 
+                                    <span class="badge badge-new"><span class="lang-bg">Ново</span><span class="lang-en">New</span></span>
+                                </h3>
+                                <span class="item-price">5.90 лв. / 3.02 €</span>
+                            </div>
+                            <p class="item-desc">
+                                <span class="lang-bg">Лимон, мента, мед и джинджифил.</span>
+                                <span class="lang-en">Lemon, mint, honey and ginger.</span>
+                            </p>
+                            <div class="item-weight">400 <span class="lang-bg">мл.</span><span class="lang-en">ml.</span></div>
                         </div>
                     </div>
                     <div class="menu-item">
                         <img src="images/ayran.jpg" class="menu-item-img" alt="Айрян">
                         <div class="menu-item-body">
-                            <div class="item-header"><h3 class="item-name">Айрян</h3><span class="item-price">2.80 лв. / 1.43 €</span></div>
-                            <p class="item-desc">Традиционен.</p>
-                            <div class="item-weight">300 мл.</div>
+                            <div class="item-header">
+                                <h3 class="item-name"><span class="lang-bg">Айрян</span><span class="lang-en">Ayran</span></h3>
+                                <span class="item-price">2.80 лв. / 1.43 €</span>
+                            </div>
+                            <p class="item-desc">
+                                <span class="lang-bg">Традиционен.</span><span class="lang-en">Traditional.</span>
+                            </p>
+                            <div class="allergen-row">
+                                <span class="allergen-title"><span class="lang-bg">Алергени:</span><span class="lang-en">Allergens:</span></span>
+                                <span class="allergen-tag"><i class="fas fa-cheese"></i> <span class="lang-bg">Мляко</span><span class="lang-en">Milk</span></span>
+                            </div>
+                            <div class="item-weight">300 <span class="lang-bg">мл.</span><span class="lang-en">ml.</span></div>
                         </div>
                     </div>
                     <div class="menu-item">
                         <img src="images/espresso.jpg" class="menu-item-img" alt="Еспресо">
                         <div class="menu-item-body">
-                            <div class="item-header"><h3 class="item-name">Еспресо</h3><span class="item-price">3.00 лв. / 1.53 €</span></div>
-                            <p class="item-desc">100% Арабика.</p>
-                            <div class="item-weight">60 мл.</div>
+                            <div class="item-header">
+                                <h3 class="item-name"><span class="lang-bg">Еспресо</span><span class="lang-en">Espresso</span></h3>
+                                <span class="item-price">3.00 лв. / 1.53 €</span>
+                            </div>
+                            <p class="item-desc">
+                                100% Arabica.
+                            </p>
+                            <div class="item-weight">60 <span class="lang-bg">мл.</span><span class="lang-en">ml.</span></div>
                         </div>
                     </div>
                     <div class="menu-item">
                         <img src="images/beer.jpg" class="menu-item-img" alt="Бира">
                         <div class="menu-item-body">
-                            <div class="item-header"><h3 class="item-name">Каменица / Загорка</h3><span class="item-price">4.50 лв. / 2.30 €</span></div>
-                            <p class="item-desc">Наливна бира.</p>
-                            <div class="item-weight">500 мл.</div>
+                            <div class="item-header">
+                                <h3 class="item-name"><span class="lang-bg">Каменица / Загорка</span><span class="lang-en">Kamenitza / Zagorka</span></h3>
+                                <span class="item-price">4.50 лв. / 2.30 €</span>
+                            </div>
+                            <p class="item-desc">
+                                <span class="lang-bg">Наливна бира.</span><span class="lang-en">Draft beer.</span>
+                            </p>
+                            <div class="item-weight">500 <span class="lang-bg">мл.</span><span class="lang-en">ml.</span></div>
                         </div>
                     </div>
                     <div class="menu-item">
                         <img src="images/heineken.jpg" class="menu-item-img" alt="Хайнекен">
                         <div class="menu-item-body">
-                            <div class="item-header"><h3 class="item-name">Хайнекен</h3><span class="item-price">5.50 лв. / 2.81 €</span></div>
-                            <p class="item-desc">Бутилка.</p>
-                            <div class="item-weight">330 мл.</div>
+                            <div class="item-header">
+                                <h3 class="item-name"><span class="lang-bg">Хайнекен</span><span class="lang-en">Heineken</span></h3>
+                                <span class="item-price">5.50 лв. / 2.81 €</span>
+                            </div>
+                            <p class="item-desc">
+                                <span class="lang-bg">Бутилка.</span><span class="lang-en">Bottle.</span>
+                            </p>
+                            <div class="item-weight">330 <span class="lang-bg">мл.</span><span class="lang-en">ml.</span></div>
                         </div>
                     </div>
                     <div class="menu-item">
                         <img src="images/wine.jpg" class="menu-item-img" alt="Вино">
                         <div class="menu-item-body">
-                            <div class="item-header"><h3 class="item-name">Чаша вино</h3><span class="item-price">7.00 лв. / 3.58 €</span></div>
-                            <p class="item-desc">Бяло, Червено или Розе (изба Катаржина).</p>
-                            <div class="item-weight">150 мл.</div>
+                            <div class="item-header">
+                                <h3 class="item-name"><span class="lang-bg">Чаша вино</span><span class="lang-en">Glass of Wine</span></h3>
+                                <span class="item-price">7.00 лв. / 3.58 €</span>
+                            </div>
+                            <p class="item-desc">
+                                <span class="lang-bg">Бяло, Червено или Розе (изба Катаржина).</span>
+                                <span class="lang-en">White, Red or Rose (Katarzyna Estate).</span>
+                            </p>
+                            <div class="item-weight">150 <span class="lang-bg">мл.</span><span class="lang-en">ml.</span></div>
                         </div>
                     </div>
                     <div class="menu-item">
                         <img src="images/rakia.jpg" class="menu-item-img" alt="Ракия">
                         <div class="menu-item-body">
-                            <div class="item-header"><h3 class="item-name">Ракия Бургас 63</h3><span class="item-price">6.50 лв. / 3.32 €</span></div>
-                            <p class="item-desc">Специална селекция.</p>
-                            <div class="item-weight">50 мл.</div>
+                            <div class="item-header">
+                                <h3 class="item-name"><span class="lang-bg">Ракия Бургас 63</span><span class="lang-en">Rakia Burgas 63</span></h3>
+                                <span class="item-price">6.50 лв. / 3.32 €</span>
+                            </div>
+                            <p class="item-desc">
+                                <span class="lang-bg">Специална селекция.</span><span class="lang-en">Special selection.</span>
+                            </p>
+                            <div class="item-weight">50 <span class="lang-bg">мл.</span><span class="lang-en">ml.</span></div>
                         </div>
                     </div>
                     <div class="menu-item">
                         <img src="images/jameson.jpg" class="menu-item-img" alt="Уиски">
                         <div class="menu-item-body">
-                            <div class="item-header"><h3 class="item-name">Уиски Jameson</h3><span class="item-price">7.50 лв. / 3.83 €</span></div>
-                            <p class="item-desc">Ирландско уиски.</p>
-                            <div class="item-weight">50 мл.</div>
+                            <div class="item-header">
+                                <h3 class="item-name"><span class="lang-bg">Уиски Jameson</span><span class="lang-en">Jameson Whiskey</span></h3>
+                                <span class="item-price">7.50 лв. / 3.83 €</span>
+                            </div>
+                            <p class="item-desc">
+                                <span class="lang-bg">Ирландско уиски.</span><span class="lang-en">Irish Whiskey.</span>
+                            </p>
+                            <div class="item-weight">50 <span class="lang-bg">мл.</span><span class="lang-en">ml.</span></div>
                         </div>
                     </div>
                 </div>
             </section>
         </div>
+
+        <div id="noResults" class="no-results">
+            <i class="fas fa-search"></i>
+            <h3>
+                <span class="lang-bg">Няма намерени резултати</span>
+                <span class="lang-en">No results found</span>
+            </h3>
+            <p>
+                <span class="lang-bg">Моля, опитайте с друга дума.</span>
+                <span class="lang-en">Please try a different keyword.</span>
+            </p>
+        </div>
+
     </div>
 
     <script>
+        // Функция за смяна на езика
+        function toggleLanguage() {
+            const body = document.body;
+            const btn = document.querySelector('.lang-btn');
+            const searchInput = document.getElementById('searchInput');
+            
+            // Превключваме класа
+            body.classList.toggle('english-mode');
+            
+            // Променяме текста на бутона и Placeholder-а
+            if (body.classList.contains('english-mode')) {
+                btn.innerText = "BG";
+                searchInput.placeholder = searchInput.getAttribute('data-ph-en');
+            } else {
+                btn.innerText = "EN";
+                searchInput.placeholder = searchInput.getAttribute('data-ph-bg');
+            }
+        }
+
         function filterMenu() {
-            var input, filter, menuItems, i, txtValue, h3;
+            var input, filter;
             input = document.getElementById("searchInput");
             filter = input.value.toUpperCase();
             
             // Взимаме всички секции
             var sections = document.getElementsByClassName("menu-section");
+            var noResultsDiv = document.getElementById('noResults');
+            var totalVisibleSections = 0;
 
             for (var i = 0; i < sections.length; i++) {
                 var section = sections[i];
@@ -649,24 +1139,31 @@
                 // Въртим цикъл през всички продукти в секцията
                 for (var j = 0; j < items.length; j++) {
                     var item = items[j];
-                    var h3 = item.getElementsByTagName("h3")[0];
-                    if (h3) {
-                        var txtValue = h3.textContent || h3.innerText;
-                        if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                            item.style.display = ""; // Показва се
-                            hasVisibleItems = true;
-                        } else {
-                            item.style.display = "none"; // Скрива се
-                        }
+                    // Променихме това да взима целия текст на картата, включително алергените
+                    var txtValue = item.textContent || item.innerText;
+                    
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        item.style.display = ""; // Показва се
+                        hasVisibleItems = true;
+                    } else {
+                        item.style.display = "none"; // Скрива се
                     }
                 }
 
                 // Скриваме/показваме цялата секция ако няма видими продукти
                 if (hasVisibleItems) {
                     section.style.display = "";
+                    totalVisibleSections++;
                 } else {
                     section.style.display = "none";
                 }
+            }
+
+            // Логика за показване на "Няма намерени резултати"
+            if (totalVisibleSections === 0) {
+                noResultsDiv.style.display = "block";
+            } else {
+                noResultsDiv.style.display = "none";
             }
         }
     </script>
